@@ -1,0 +1,11 @@
+# Archivos temporales
+*.swp
+*~
+.DS_Store
+
+# Dart / Flutter
+**/.dart_tool/
+**/build/
+
+# Archivos temporales de editores
+*.tmp
