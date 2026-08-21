@@ -29,8 +29,36 @@ class RegistroPage extends StatefulWidget{
 }
 
 class _RegistroPageState extends State<RegistroPage>{
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return /*fscaff*/ Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Registro Alumno'
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
+
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Nombre completo',
+
+                  prefixIcon: Icon(Icons.person,),
+
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
