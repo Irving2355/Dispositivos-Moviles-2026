@@ -30,6 +30,8 @@ class RegistroPage extends StatefulWidget{
 
 class _RegistroPageState extends State<RegistroPage>{
   final _formKey = GlobalKey<FormState>();
+  final _nombreController = TextEditingController();
+  final _correoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,47 @@ class _RegistroPageState extends State<RegistroPage>{
 
                   border: OutlineInputBorder(),
                 ),
+                controller: _nombreController,
+
+                validator: (value){
+                  if(value == null || value.trim().isEmpty){
+                    return 'Ingrese su nombre';
+                  }
+
+                  return null;
+                },
               ),
+            
+            SizedBox(
+              height: 16,
+            ),
+
+            TextFormField(
+              controller: _correoController,
+
+              keyboardType: TextInputType.emailAddress,
+
+              decoration: const InputDecoration(
+                labelText: 'Correo',
+
+                hintText: 'correo@ejemplo.com',
+
+                prefixIcon: Icon(Icons.email),
+                border: OutlineInputBorder(),
+              ),
+
+              validator: (value){
+                if(value == null || value.trim().isEmpty){
+                  return 'Ingrese su correo';
+                }
+
+                if(!value.contains('@')){
+                  return 'Correo no valido';
+                }
+
+                return null;
+              },
+            ),
             ],
           ),
         ),
