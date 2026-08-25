@@ -31,10 +31,65 @@ class RegistroPage extends StatefulWidget {
 }
 
 class _RegistroPageState extends State<RegistroPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _nombreController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return /*fscaff*/Scaffold(
+      appBar: AppBar(
+        title: const Text('Registro de alumno',),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+
+        child: Form(
+          key: _formKey,
+
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Nombre completo',
+
+                  hintText: 'Maria Jose',
+
+                  prefixIcon: Icon(Icons.person,),
+
+                  border: OutlineInputBorder(),
+                ),
+                controller: _nombreController,
+
+                validator: (value){
+                  if(value == null || value.trim().isEmpty){
+                    return 'Ingresa tu nombre';
+                  }
+
+                  return null;
+                },
+              ),
+
+              //fszbh
+              SizedBox(
+                height: 16,
+              ),
+
+              TextFormField(
+                controller: _correoController,
+
+                keyboardType: TextInputType.emailAddress,
+
+                decoration: InputDecoration(
+                  labelText: 'Correo',
+                  hintText: 'correo@ejemplo.com',
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        ),
     );
   }
 }
