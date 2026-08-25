@@ -33,6 +33,8 @@ class _RegistroPageState extends State<RegistroPage>{
   final _nombreController = TextEditingController();
   final _correoController = TextEditingController();
   final _passwordController = TextEditingController();
+  String? _carrera;
+  bool _aceptaTerminos = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class _RegistroPageState extends State<RegistroPage>{
           'Registro Alumno'
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Form(
           key: _formKey,
@@ -147,10 +149,78 @@ class _RegistroPageState extends State<RegistroPage>{
               },
 
             ),
+
+            SizedBox(
+              height: 16,
+            ),
+
+            DropdownButtonFormField(
+              initialValue: _carrera,
+              decoration: const InputDecoration(
+                labelText: 'Carrera',
+                prefixIcon: Icon(Icons.school,),
+                border: OutlineInputBorder(),
+              ),
+
+              items: const [
+                DropdownMenuItem(
+                  value: 'ISC',
+
+                  child: Text('Ingeneria en sistemas',),
+                  ),
+
+                  DropdownMenuItem(
+                  value: 'IE',
+
+                  child: Text('Ingeneria en elenctronica',),
+                  ),
+              ],
+              
+              onChanged: (value){
+                setState(() {
+                  _carrera = value;
+                });
+              },
+
+              validator: (value) {
+                if(value == null){
+                  return 'seleccione una carrera';
+                }
+
+                return null;
+              },
+            ),
+
+            SizedBox(
+              height: 16,
+            ),
+
+            CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Acepto teminos y condiciones',),
+
+              value: _aceptaTerminos, 
+              onChanged: (value){
+                setState(() {
+                  _aceptaTerminos = value ?? false;
+                });
+              }
+              ),
+
+              ElevatedButton(
+                onPressed: (){
+
+                }, 
+                child: const Text('Registrar',),
+                )
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _registrar(){
+    
   }
 }
