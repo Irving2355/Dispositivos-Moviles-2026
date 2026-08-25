@@ -32,6 +32,7 @@ class _RegistroPageState extends State<RegistroPage>{
   final _formKey = GlobalKey<FormState>();
   final _nombreController = TextEditingController();
   final _correoController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +97,55 @@ class _RegistroPageState extends State<RegistroPage>{
 
                 return null;
               },
+            ),
+            
+            SizedBox(
+              height: 16,
+            ),
+
+            TextFormField(
+              controller:
+                  _passwordController,
+
+              obscureText: true,
+
+              decoration:
+                  const InputDecoration(
+
+                labelText:
+                    'Contraseña',
+
+                prefixIcon:
+                    Icon(
+                  Icons.lock,
+                ),
+
+                border:
+                    OutlineInputBorder(),
+
+              ),
+
+              validator: (value) {
+
+                if (value == null ||
+                    value.isEmpty) {
+
+                  return
+                      'Ingrese una contraseña';
+
+                }
+
+                if (value.length < 6) {
+
+                  return
+                      'Use al menos 6 caracteres';
+
+                }
+
+                return null;
+
+              },
+
             ),
             ],
           ),
