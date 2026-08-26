@@ -33,6 +33,10 @@ class RegistroPage extends StatefulWidget {
 class _RegistroPageState extends State<RegistroPage> {
   final _formKey = GlobalKey<FormState>();
   final _nombreController = TextEditingController();
+  final _correoController = TextEditingController();
+  final _passworController = TextEditingController();
+  String? _carrera;
+  bool _aceptaTerminos = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,7 @@ class _RegistroPageState extends State<RegistroPage> {
       appBar: AppBar(
         title: const Text('Registro de alumno',),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
 
         child: Form(
@@ -86,6 +90,76 @@ class _RegistroPageState extends State<RegistroPage> {
                   border: OutlineInputBorder(),
                 ),
               ),
+
+              SizedBox(
+                height: 16,
+              ),
+
+              TextFormField(
+                controller: _passworController,
+                obscureText: true,
+
+                decoration: InputDecoration(
+                  labelText: 'Contraseña',
+                  prefixIcon: Icon(Icons.lock,),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              SizedBox(
+                height: 16,
+              ),
+
+
+              DropdownButtonFormField(
+                initialValue: _carrera,
+                decoration: const InputDecoration(
+                  labelText: 'Carrera',
+                  prefixIcon: Icon(Icons.school),
+                  border: OutlineInputBorder(),
+                ),
+
+                items: const [
+                  DropdownMenuItem(
+                    value: 'ISC',
+                    child: Text('Ingeneria en sistemas',),
+                  ),
+                  DropdownMenuItem(
+                    value: 'IE',
+                    child: Text('Ingeneria en electronica',),
+                  ),
+                ], 
+                onChanged: (value){
+                  setState(() {
+                    _carrera = value;
+                  });
+                },
+
+                validator: (value){
+                  if(value == null){
+                    return 'Selecciona una carrera';
+                  }
+                  return null;
+                },
+                ),
+
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Acepto terminos',),
+                  value: _aceptaTerminos, 
+                  onChanged: (value){
+                    setState(() {
+                      _aceptaTerminos = value ?? false;
+                    });
+                  }
+                ),
+
+                ElevatedButton(
+                  onPressed: (){
+
+                  }, 
+                  child: Text('Registrar',),
+                  ),
             ],
           ),
         ),
