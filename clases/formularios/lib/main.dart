@@ -33,6 +33,10 @@ class RegristoPage extends StatefulWidget {
 class _RegristoPageState extends State<RegristoPage> {
   final _formKey = GlobalKey<FormState>();
   final _nombreController = TextEditingController();
+  final _correoController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String? _carrera;
+  bool _aceptaTerminos = false;
   
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,7 @@ class _RegristoPageState extends State<RegristoPage> {
       appBar: AppBar(
         title: const Text('Registro alumno'),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
 
         child: Form(
@@ -82,10 +86,103 @@ class _RegristoPageState extends State<RegristoPage> {
                   border: OutlineInputBorder(),
                 ),
               ),
+
+              SizedBox(
+                height: 16,
+              ),
+
+              TextFormField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Contraseña',
+                  prefixIcon: Icon(Icons.lock,),
+                  border: OutlineInputBorder(),
+                ),
+
+                validator: (value) {
+                  if(value == null || value.isEmpty){
+                    return 'Ingrese contraseña';
+                  }
+                  if(value.length < 6){
+                    return 'Ingresa 6 caracteres';
+                  }
+                  return null;
+                },
+              ),
+
+              DropdownButtonFormField<String>(
+                initialValue: _carrera,
+                decoration: InputDecoration(
+                  labelText: 'Carrera',
+                  prefixIcon: Icon(Icons.school),
+                  border: OutlineInputBorder(),
+                ),
+
+                items: const [
+                  DropdownMenuItem(
+                    value: 'ISC',
+                    child: Text('Ing en sistemas',),
+                    ),
+                    DropdownMenuItem(
+                    value: 'IE',
+                    child: Text('Ing en electronica',),
+                    ),
+                ], 
+
+                onChanged:(value) {
+                  setState(() {
+                    _carrera = value;
+                  });
+                },
+
+                validator: (value) {
+                  if(value == null){
+                    return 'Selecciona una carrer';
+                  }
+                  return null;
+                },
+                ),
+
+                CheckboxListTile(
+                  title: Text('Acepto terminos',),
+                  value: _aceptaTerminos, 
+                  onChanged:(value) {
+                    setState(() {
+                      _aceptaTerminos = value ?? false;
+                    });
+                  },
+                ),
+
+                ElevatedButton(
+                  onPressed: (){
+                    _registrar();
+                  }, 
+                  child: Text('Registrar',),
+                ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _registrar(){
+    final formularioValido = _formKey.currentState!.validate();
+    
+    if(!formularioValido){
+      return;
+    }
+
+    if(!_aceptaTerminos){
+      ScaffoldMessenger
+          .of(context)
+          .showSnackBar(
+            const SnackBar(
+              content: Text('Debes de aceptar teminos',),
+              ),
+          );
+      return;
+    }
   }
 }
