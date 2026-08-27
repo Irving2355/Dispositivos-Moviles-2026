@@ -154,17 +154,46 @@ class _RegristoPageState extends State<RegristoPage> {
                   },
                 ),
 
-                ElevatedButton(
-                  onPressed: (){
-                    _registrar();
-                  }, 
-                  child: Text('Registrar',),
+                //frow -> fex
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: (){
+                          _registrar();
+                        }, 
+                        child: Text('Registrar',),
+                      ),
+                    ),
+
+                    SizedBox(
+                      width: 12,
+                    ),
+
+                    ElevatedButton(
+                      onPressed: _limpiar, 
+                      child: Text('Limpiar')
+                    ),
+                  ],
                 ),
+                
             ],
           ),
         ),
       ),
     );
+  }
+
+
+  void _limpiar(){
+    _nombreController.clear();
+    _correoController.clear();
+    _passwordController.clear();
+
+    setState(() {
+      _carrera = null;
+      _aceptaTerminos = false;
+    });
   }
 
   void _registrar(){
