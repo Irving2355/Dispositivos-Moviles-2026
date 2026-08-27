@@ -154,16 +154,80 @@ class _RegistroPageState extends State<RegistroPage> {
                   }
                 ),
 
-                ElevatedButton(
-                  onPressed: (){
+                //frow -> fex
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: _registrar, 
+                        child: Text('Registrar',),
+                      ),
+                    ),
 
-                  }, 
-                  child: Text('Registrar',),
-                  ),
+                    SizedBox(
+                      width: 12,
+                    ),
+
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: limpiar, 
+                        child: Text('Limpiar',),
+                      ),
+                    )
+                  ],
+                ),
+                
             ],
           ),
         ),
         ),
     );
+  }
+
+  void _registrar(){
+    final formularioValido = _formKey
+                            .currentState!.validate();
+
+    if(!formularioValido){
+      return;
+    }
+
+    if(!_aceptaTerminos){
+      ScaffoldMessenger
+        .of(context)
+        .showSnackBar(
+          SnackBar(
+            content: Text('Debes aceptar los terminos',),
+          ),
+        );
+      return;
+    }
+
+    final nombre = _nombreController
+                      .text.trim();
+    
+    final correo = _correoController
+                      .text.trim();
+    
+    print('Nombre: $nombre');
+    print('Correo: $correo');
+    print('Carrera: $_carrera');
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Alumno registrado',),
+      ),
+    );
+  }
+
+  void limpiar(){
+    _nombreController.clear();
+    _correoController.clear();
+    _passworController.clear();
+
+    setState(() {
+      _carrera = null;
+      _aceptaTerminos = false;
+    });
   }
 }
