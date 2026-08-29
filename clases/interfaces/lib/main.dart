@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:interfaces/screens/home_page.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Campus cursos',
       theme: AppTheme.lightTheme,
 
-      home: const Placeholder(),
+      home: HomePage(),
     );
   }
 }
