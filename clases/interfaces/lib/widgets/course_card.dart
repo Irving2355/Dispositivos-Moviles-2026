@@ -75,10 +75,71 @@ class CourseCard extends StatelessWidget {
                 ),
                 
                 const SizedBox(
-                    height: 12,
+                    height: 8,
                 ),
 
-                
+                // Nombre del curso.
+                Text(
+                  titulo,
+                  maxLines:
+                      1,
+                  overflow:
+                      TextOverflow.ellipsis,
+                  style:
+                      Theme.of(context)
+                          .textTheme
+                          .titleMedium,
+                ),
+
+                const SizedBox(
+                  height: 6,
+                ),
+
+                // Nivel y duración.
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.schedule,
+                      size: 16,
+                    ),
+
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Expanded(
+                      child: Text(
+                        '$nivel - $duracion',
+                        maxLines:
+                            1,
+                        overflow:
+                            TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 10,
+                ),
+
+                SizedBox(
+                  width:
+                      double.infinity,
+                  child:
+                      FilledButton.icon(
+                    onPressed:
+                        onPressed,
+                    icon:
+                        const Icon(
+                      Icons.visibility,
+                    ),
+
+                    label:
+                        const Text(
+                      'Ver',
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
