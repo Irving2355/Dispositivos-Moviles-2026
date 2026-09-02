@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/course_data.dart';
+import '../widgets/category_chip.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _categoriaSeleccionada = 'Todos';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,7 +128,17 @@ class _HomePageState extends State<HomePage> {
               },
 
               itemBuilder: (context, index){
-                return Text(categorias[index]);
+                final categoria = categorias[index];
+                return CategoryChip(
+                  label: categoria, 
+                  selected: 
+                  _categoriaSeleccionada == categoria, 
+                  onTap: (){
+                    setState(() {
+                      _categoriaSeleccionada = categoria;
+                    });
+                  }
+                  );
               },
             ),
           ),
