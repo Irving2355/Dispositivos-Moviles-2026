@@ -13,6 +13,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String _categoriaSeleccionada = 'Todos';
 
+  List<Map<String, String>> _obtenerCursos(){
+    if(_categoriaSeleccionada == 'Todos'){
+      return cursos;
+    }
+
+    final List<Map<String, String>> resultado = [];
+
+    for(final curso in cursos){
+      if(curso['categoria'] == _categoriaSeleccionada){
+        resultado.add(curso);
+      }
+    }
+
+    return resultado;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
