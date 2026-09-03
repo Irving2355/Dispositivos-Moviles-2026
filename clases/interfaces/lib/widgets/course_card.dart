@@ -27,7 +27,7 @@ class CourseCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(titulo),
+          //Text(titulo),
 
           Expanded(
             child: Image.network(

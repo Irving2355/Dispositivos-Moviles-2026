@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../data/course_data.dart';
 import '../widgets/category_chip.dart';
+import '../widgets/course_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ super.key });
@@ -31,6 +32,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final cursosFiltrados = _obtenerCursos();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Campus cursos',),
@@ -158,6 +161,52 @@ class _HomePageState extends State<HomePage> {
                   );
               },
             ),
+          ),
+
+          const SizedBox(
+            height: 24,
+          ),
+
+          Text(
+            'Cursos disponibles',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+
+          const SizedBox(
+            height: 12,
+          ),
+
+          GridView.builder(
+            shrinkWrap: true,
+
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: cursosFiltrados.length,
+
+            gridDelegate: 
+            const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              childAspectRatio: 0.68,
+            ),
+            
+            itemBuilder:(context, index) {
+              final curso = cursosFiltrados[index];
+
+              return CourseCard(
+                titulo: curso['titulo']!, 
+                categoria: curso['categoria']!, 
+                duracion: curso['duracion']!, 
+                nivel: curso['nivel']!, 
+                imagen: curso['imagen']!, 
+                onPressed: (){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: 
+                    Text('Seleccionaste ${curso['titulo']}'))
+                  );
+                }
+                );
+            },
           ),
         ],
       ),
