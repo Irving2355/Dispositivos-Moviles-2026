@@ -1,12 +1,14 @@
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
-import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
+import '/ui/widgets/campus_app_bar.dart';
+import '/ui/widgets/campus_primary_button.dart';
+import '/ui/widgets/responsive_page_section.dart';
 import 'about_page_model.dart';
+
 export 'about_page_model.dart';
 
 class AboutPageWidget extends StatefulWidget {
@@ -27,18 +29,21 @@ class _AboutPageWidgetState extends State<AboutPageWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => AboutPageModel());
+    _model = createModel(context, AboutPageModel.new);
   }
 
   @override
   void dispose() {
     _model.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = FlutterFlowTheme.of(context);
+    final width = MediaQuery.sizeOf(context).width;
+    final titleSize = width < 600 ? 32.0 : (width < 1024 ? 38.0 : 42.0);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -46,118 +51,48 @@ class _AboutPageWidgetState extends State<AboutPageWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).primary,
-          automaticallyImplyLeading: false,
-          title: Text(
-            'Acerca de...',
-            style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  font: GoogleFonts.interTight(
-                    fontWeight:
-                        FlutterFlowTheme.of(context).headlineMedium.fontWeight,
-                    fontStyle:
-                        FlutterFlowTheme.of(context).headlineMedium.fontStyle,
-                  ),
-                  color: Colors.white,
-                  fontSize: 22.0,
-                  letterSpacing: 0.0,
-                  fontWeight:
-                      FlutterFlowTheme.of(context).headlineMedium.fontWeight,
-                  fontStyle:
-                      FlutterFlowTheme.of(context).headlineMedium.fontStyle,
-                ),
-          ),
-          actions: [],
-          centerTitle: false,
-          elevation: 2.0,
-        ),
+        backgroundColor: theme.primaryBackground,
+        appBar: const CampusAppBar(title: 'Acerca de...'),
         body: SafeArea(
           top: true,
-          child: Align(
-            alignment: AlignmentDirectional(0.0, -1.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    'https://picsum.photos/seed/582/600',
-                    width: 200.0,
-                    height: 200.0,
-                    fit: BoxFit.cover,
+          child: SingleChildScrollView(
+            child: ResponsivePageSection(
+              maxWidth: 700,
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      'https://picsum.photos/seed/582/600',
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                Text(
-                  'Gurpo B ISC',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        font: GoogleFonts.inter(
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .fontWeight,
-                          fontStyle:
-                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                        ),
-                        fontSize: () {
-                          if (MediaQuery.sizeOf(context).width <
-                              kBreakpointSmall) {
-                            return 32.0;
-                          } else if (MediaQuery.sizeOf(context).width <
-                              kBreakpointMedium) {
-                            return 34.0;
-                          } else if (MediaQuery.sizeOf(context).width <
-                              kBreakpointLarge) {
-                            return 38.0;
-                          } else {
-                            return 42.0;
-                          }
-                        }(),
-                        letterSpacing: 0.0,
-                        fontWeight:
-                            FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                        fontStyle:
-                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                  const SizedBox(height: 12),
+                  Text(
+                    'Gurpo B ISC',
+                    textAlign: TextAlign.center,
+                    style: theme.bodyMedium.override(
+                      font: GoogleFonts.inter(
+                        fontWeight: theme.bodyMedium.fontWeight,
+                        fontStyle: theme.bodyMedium.fontStyle,
                       ),
-                ),
-                FFButtonWidget(
-                  onPressed: () async {
-                    context.pushNamed(HomePageWidget.routeName);
-                  },
-                  text: 'Home',
-                  icon: Icon(
-                    Icons.home,
-                    size: 25.0,
+                      fontSize: titleSize,
+                      letterSpacing: 0,
+                    ),
                   ),
-                  options: FFButtonOptions(
-                    height: 40.0,
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: FlutterFlowTheme.of(context).primary,
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          font: GoogleFonts.interTight(
-                            fontWeight: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .fontWeight,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .fontStyle,
-                          ),
-                          color: Colors.white,
-                          letterSpacing: 0.0,
-                          fontWeight: FlutterFlowTheme.of(context)
-                              .titleSmall
-                              .fontWeight,
-                          fontStyle:
-                              FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                        ),
-                    elevation: 0.0,
-                    borderRadius: BorderRadius.circular(16.0),
+                  const SizedBox(height: 12),
+                  CampusPrimaryButton(
+                    text: 'Home',
+                    icon: Icons.home,
+                    height: 40,
+                    borderRadius: 16,
+                    onPressed: () async =>
+                        context.pushNamed(HomePageWidget.routeName),
                   ),
-                ),
-              ].divide(SizedBox(height: 12.0)),
+                ],
+              ),
             ),
           ),
         ),
