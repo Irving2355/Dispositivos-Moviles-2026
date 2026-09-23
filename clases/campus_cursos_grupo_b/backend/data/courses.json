@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "name": "Fundamentos de Programacion",
+        "description": "Introduccion a algoritmos, variables, estructuras de control y funciones mediante ejercicios practicos.",
+        "teacher": "Laura Martinez",
+        "semester": "2026-1"
+    },
+    {
+        "id": 2,
+        "name": "Programacion Orientada a Objetos",
+        "description": "Diseno de aplicaciones mantenibles usando clases, objetos, herencia, polimorfismo y encapsulamiento.",
+        "teacher": "Carlos Hernandez",
+        "semester": "2026-1"
+    },
+    {
+        "id": 3,
+        "name": "Estructuras de Datos",
+        "description": "Analisis y uso de listas, pilas, colas, arboles y grafos para resolver problemas de manera eficiente.",
+        "teacher": "Sofia Ramirez",
+        "semester": "2026-1"
+    },
+    {
+        "id": 4,
+        "name": "Desarrollo Web",
+        "description": "Creacion de sitios web interactivos con HTML, CSS, JavaScript y consumo de servicios mediante APIs.",
+        "teacher": "Miguel Torres",
+        "semester": "2026-1"
+    },
+    {
+        "id": 5,
+        "name": "Bases de Datos",
+        "description": "Modelado de informacion, consultas SQL, relaciones entre tablas y buenas practicas para administrar datos.",
+        "teacher": "Ana Gomez",
+        "semester": "2026-1"
+    },
+    {
+        "id": 6,
+        "name": "Desarrollo de Aplicaciones Moviles",
+        "description": "Construccion de aplicaciones moviles multiplataforma con interfaces adaptables, navegacion y manejo de estado.",
+        "teacher": "Diego Castillo",
+        "semester": "2026-2"
+    },
+    {
+        "id": 7,
+        "name": "Programacion en Python",
+        "description": "Automatizacion de tareas y desarrollo de soluciones con Python, incluyendo modulos, archivos y manejo de errores.",
+        "teacher": "Valeria Ruiz",
+        "semester": "2026-2"
+    },
+    {
+        "id": 8,
+        "name": "Ingenieria de Software",
+        "description": "Aplicacion de metodologias, control de versiones, pruebas y patrones de diseno durante el ciclo de desarrollo.",
+        "teacher": "Jorge Navarro",
+        "semester": "2026-2"
+    },
+    {
+        "id": 9,
+        "name": "Inteligencia Artificial",
+        "description": "Principios de aprendizaje automatico y procesamiento de datos para crear modelos capaces de apoyar decisiones.",
+        "teacher": "Elena Flores",
+        "semester": "2026-2"
+    },
+    {
+        "id": 10,
+        "name": "Seguridad Informatica",
+        "description": "Identificacion de vulnerabilidades y desarrollo de practicas de programacion segura para proteger aplicaciones y datos.",
+        "teacher": "Roberto Silva",
+        "semester": "2026-2"
+    }
+]
