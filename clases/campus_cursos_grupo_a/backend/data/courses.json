@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "name": "Fundamentos de Programacion",
+        "description": "Curso introductorio sobre algoritmos, variables, estructuras de control, funciones y resolucion de problemas mediante programas sencillos.",
+        "teacher": "Lucia Fernandez",
+        "semester": "2026-1"
+    },
+    {
+        "id": 2,
+        "name": "Programacion Orientada a Objetos",
+        "description": "Aprendizaje de clases, objetos, herencia, polimorfismo y encapsulamiento para construir aplicaciones mantenibles y reutilizables.",
+        "teacher": "Mateo Rojas",
+        "semester": "2026-1"
+    },
+    {
+        "id": 3,
+        "name": "Estructuras de Datos",
+        "description": "Estudio de listas, pilas, colas, arboles y tablas hash, con enfasis en elegir la estructura adecuada para cada problema.",
+        "teacher": "Sofia Almeida",
+        "semester": "2026-1"
+    },
+    {
+        "id": 4,
+        "name": "Desarrollo Web con JavaScript",
+        "description": "Creacion de interfaces web interactivas utilizando JavaScript, manipulacion del DOM, consumo de APIs y programacion asincrona.",
+        "teacher": "Diego Navarro",
+        "semester": "2026-2"
+    },
+    {
+        "id": 5,
+        "name": "Bases de Datos Relacionales",
+        "description": "Diseño de bases de datos con modelo relacional, SQL, consultas, relaciones, normalizacion y transacciones.",
+        "teacher": "Camila Pereira",
+        "semester": "2026-2"
+    },
+    {
+        "id": 6,
+        "name": "Desarrollo de Aplicaciones Moviles",
+        "description": "Construccion de aplicaciones moviles multiplataforma con navegacion, formularios, consumo de servicios y almacenamiento local.",
+        "teacher": "Alejandro Vidal",
+        "semester": "2026-2"
+    },
+    {
+        "id": 7,
+        "name": "Programacion en Python",
+        "description": "Uso practico de Python para automatizar tareas, procesar archivos, trabajar con colecciones y desarrollar programas modulares.",
+        "teacher": "Valentina Costa",
+        "semester": "2026-2"
+    },
+    {
+        "id": 8,
+        "name": "Ingenieria de Software",
+        "description": "Aplicacion de metodologias agiles, control de versiones, pruebas automatizadas, documentacion y diseño de proyectos de software.",
+        "teacher": "Javier Molina",
+        "semester": "2026-2"
+    },
+    {
+        "id": 9,
+        "name": "Introduccion a la Inteligencia Artificial",
+        "description": "Revision de conceptos de aprendizaje automatico, preparacion de datos, modelos de clasificacion y evaluacion de resultados.",
+        "teacher": "Ines Duarte",
+        "semester": "2026-2"
+    },
+    {
+        "id": 10,
+        "name": "Seguridad Informatica",
+        "description": "Principios de seguridad en aplicaciones, autenticacion, autorizacion, proteccion de datos y deteccion de vulnerabilidades comunes.",
+        "teacher": "Rafael Montes",
+        "semester": "2026-2"
+    }
+]
