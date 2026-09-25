@@ -28,3 +28,15 @@ async function writeCourses(courses) {
         'utf-8'
     );
 }
+
+function validateCourse(body){
+    const name = String(body.name ?? '').trim();
+
+    const description = String(body.description ?? '').trim();
+
+    const teacher = String(body.teacher ?? '').trim();
+
+    const semester = Number(body.semester);
+
+    const errors = [];
+}
