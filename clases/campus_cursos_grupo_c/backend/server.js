@@ -156,7 +156,59 @@ app.put('/api/courses/:id', async(req, res)=>{
         }
 
         const courses = await readCourses();
+        const index = courses.findIndex(
+            course => course.id === id
+        );
+
+        if(index === -1){
+            return res.status(404).json({
+                message: 'Curso no encontrado'
+            });
+        } 
+
+        const updateCourse = {
+            id,
+            ...validation.data
+        };
+
+        courses[index] = updateCourse;
+        await writeCourses(courses);
+        res.json(updateCourse);
     } catch (error) {
         console.error(error);
     }
 });
+
+app.delete('/api/courses/:id', async(req, res)=>{
+    try {
+        const id = Number(req.params.id);
+        
+        const courses = await readCourses();
+        const index = courses.findIndex(
+            course => course.id === id
+        );
+
+        if(index === -1){
+            return res.status(404).json({
+                message: 'Curso no encontrado'
+            });
+        } 
+
+        courses.splice(index, 1);
+
+        await writeCourses(courses);
+        res.status(204).send();
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+app.listen(
+    PORT,
+    '0.0.0.0',
+    ()=>{
+        console.log(
+            'Api ejecutandose correctamente'
+        );
+    }
+);
