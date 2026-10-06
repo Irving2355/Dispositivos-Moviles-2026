@@ -98,7 +98,7 @@ class CourseForm extends StatelessWidget {
                 focusNode: semesterFocusNode,
                 label: 'Semestre',
                 validator: semesterValidator,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.text,
                 maxLines: 5,
               ),
               const SizedBox(height: 12),

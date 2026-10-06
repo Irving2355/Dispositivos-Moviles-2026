@@ -46,8 +46,7 @@ function validateCourse(body) {
   const teacher =
       String(body.teacher ?? '').trim();
 
-  const semester =
-      Number(body.semester);
+  const semester = String(body.semester ?? '').trim();
 
 
   const errors = [];
@@ -80,14 +79,10 @@ function validateCourse(body) {
   }
 
 
-  if (
-    !Number.isInteger(semester) ||
-    semester < 1 ||
-    semester > 12
-  ) {
+  if (!/^\d{4}-{12}$/.test(semester)) {
 
     errors.push(
-      'El semestre debe ser un número entre 1 y 12.'
+      'El semestre debe ser AAAA-1 o AAAA-2'
     );
 
   }

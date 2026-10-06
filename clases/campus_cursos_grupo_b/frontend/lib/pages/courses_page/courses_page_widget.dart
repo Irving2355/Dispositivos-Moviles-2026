@@ -6,9 +6,12 @@ import '/index.dart';
 import '/ui/widgets/campus_app_bar.dart';
 import '/ui/widgets/campus_hero_section.dart';
 import '/ui/widgets/campus_primary_button.dart';
-import '/ui/widgets/course_card.dart';
 import '/ui/widgets/responsive_page_section.dart';
 import 'courses_page_model.dart';
+
+import '/models/course.dart';
+import '/repositories/course_repository.dart';
+import '/ui/widgets/course_list_card.dart';
 
 export 'courses_page_model.dart';
 
@@ -27,14 +30,24 @@ class _CoursesPageWidgetState extends State<CoursesPageWidget> {
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final CourseRepository _repository = CourseRepository();
+  late Future<List<Course>> _coursesFuture;
+
   @override
   void initState() {
     super.initState();
     _model = createModel(context, CoursesPageModel.new);
+
+    _reloadCourses();
+  }
+
+  void _reloadCourses(){
+    _coursesFuture = _repository.getCourses();
   }
 
   @override
   void dispose() {
+    _repository.dispose();
     _model.dispose();
     super.dispose();
   }
@@ -46,6 +59,13 @@ class _CoursesPageWidgetState extends State<CoursesPageWidget> {
         'courseId': serializeParam(0, ParamType.int),
       }.withoutNulls,
     );
+  }
+
+  Future<void> _refreshCourse()async{
+    setState(
+      _reloadCourses,
+    );
+    await _coursesFuture;
   }
 
   @override

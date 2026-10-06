@@ -59,6 +59,10 @@ class CourseFormPageModel extends FlutterFlowModel<CourseFormPageWidget> {
       return 'Semestre is required';
     }
 
+    if(val.length < 6){
+      return 'El formato debe de tener 6 letras';
+    }
+
     return null;
   }
 
