@@ -122,7 +122,23 @@ class CourseService {
       throw ApiExeption('No se pudo eliminar el curso',
       statusCode:  response.statusCode);
     }
+  }
 
-    
+  String _extractError(
+    http.Response response
+  ){
+    try {
+      final data = jsonDecode(
+        response.body,
+      ) as Map<String, dynamic>;
+
+      return data['message']?.toString() ?? 'Error del server';
+    } catch (_) {
+      return 'Error del server';
+    }
+  }
+
+  void dispose(){
+    _client.close();
   }
 }
