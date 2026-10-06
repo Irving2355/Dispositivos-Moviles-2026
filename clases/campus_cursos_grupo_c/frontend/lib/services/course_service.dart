@@ -71,4 +71,70 @@ class CourseService {
 
     return Course.fromJson(decoded,);
   }
+
+  Future<Course> createCourse(Course course)async{
+    final response = 
+    await _client.post(
+      _uri('/courses'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(
+        course.toJson(),
+      ),
+    );
+
+    if(response.statusCode != 201){
+      throw ApiException(
+        'No se pudo',
+        statusCode: response.statusCode,
+      );
+    }
+
+    return Course.fromJson(
+      jsonDecode(
+        response.body,
+      )as Map<String, dynamic>,
+    );
+  }
+
+  Future<Course> updateCourse(Course course)async{
+    if(course.id == null){
+      throw const ApiException(
+        'No existe id'
+      );
+    }
+
+    final response = await _client.put(
+      _uri('courses/${course.id}'),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: jsonEncode(course.toJson())
+    );
+
+    if(response.statusCode != 200){
+      throw ApiException(
+        'No se pudo',
+        statusCode: response.statusCode,
+      );
+    }
+
+    return Course.fromJson(
+      jsonDecode(response.body)as Map<String, dynamic>,
+    );
+  }
+
+  Future<void> deleteCourse(int id)async{
+    final response = await _client.delete(
+      _uri('courses/$id')
+    );
+
+    if(response.statusCode != 204){
+      throw ApiException(
+        'No se pudo',
+        statusCode: response.statusCode,
+      );
+    }
+  }
 }
