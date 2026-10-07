@@ -137,4 +137,8 @@ class CourseService {
       );
     }
   }
+
+  void dispose(){
+    _client.close();
+  }
 }

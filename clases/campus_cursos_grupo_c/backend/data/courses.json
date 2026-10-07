@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "name": "Fundamentos de Programacion",
+        "description": "Logica, variables, estructuras de control y funciones como base para el desarrollo de software.",
+        "teacher": "Lucia Fernandez",
+        "semester": 1
+    },
+    {
+        "id": 2,
+        "name": "Algoritmos y Estructuras de Datos",
+        "description": "Diseno y analisis de algoritmos, arreglos, listas, pilas, colas y busqueda.",
+        "teacher": "Mateo Ramirez",
+        "semester": 2
+    },
+    {
+        "id": 3,
+        "name": "Programacion Orientada a Objetos",
+        "description": "Modelado con clases, objetos, encapsulamiento, herencia y polimorfismo usando Java.",
+        "teacher": "Valentina Morales",
+        "semester": 3
+    },
+    {
+        "id": 4,
+        "name": "Programacion 3",
+        "description": "Desarrollo avanzado en Java con colecciones, manejo de excepciones y patrones de diseno.",
+        "teacher": "Alejandra Garcia",
+        "semester": 4
+    },
+    {
+        "id": 5,
+        "name": "Bases de Datos",
+        "description": "Diseno de bases de datos relacionales, consultas SQL e integridad de la informacion.",
+        "teacher": "Santiago Herrera",
+        "semester": 4
+    },
+    {
+        "id": 6,
+        "name": "Desarrollo de Aplicaciones Moviles",
+        "description": "Creacion de aplicaciones Android con Kotlin, componentes, navegacion y persistencia local.",
+        "teacher": "Camila Torres",
+        "semester": 5
+    },
+    {
+        "id": 7,
+        "name": "Diseno de Interfaces Moviles",
+        "description": "Principios de experiencia de usuario, accesibilidad y diseno adaptable para aplicaciones moviles.",
+        "teacher": "Diego Alvarez",
+        "semester": 5
+    },
+    {
+        "id": 8,
+        "name": "Servicios Web y APIs",
+        "description": "Integracion de aplicaciones moviles con servicios REST, intercambio JSON y autenticacion.",
+        "teacher": "Isabella Castillo",
+        "semester": 5
+    },
+    {
+        "id": 9,
+        "name": "Pruebas de Software",
+        "description": "Pruebas unitarias, de integracion y de interfaz para validar la calidad de aplicaciones.",
+        "teacher": "Gabriel Mendoza",
+        "semester": 6
+    },
+    {
+        "id": 10,
+        "name": "Proyecto Integrador de Aplicaciones Moviles",
+        "description": "Diseno y desarrollo de una aplicacion movil completa que integra interfaz, persistencia y servicios web.",
+        "teacher": "Daniela Rojas",
+        "semester": 6
+    }
+]

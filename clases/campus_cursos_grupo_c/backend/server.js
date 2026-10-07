@@ -89,7 +89,7 @@ app.get('/api/courses', async(req, res)=>{
     }
 });
 
-app.get('/api/courses/id', async(req, res)=>{
+app.get('/api/courses/:id', async(req, res)=>{
     try{
         const id = Number(req.params.id);
         const courses = await readCourses();
