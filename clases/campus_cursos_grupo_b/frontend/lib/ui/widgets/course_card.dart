@@ -12,6 +12,7 @@ class CourseCard extends StatelessWidget {
     required this.semester,
     required this.description,
     required this.onViewDetails,
+    this.width = 360,
   });
 
   final String title;
@@ -19,6 +20,7 @@ class CourseCard extends StatelessWidget {
   final String semester;
   final String description;
   final VoidCallback onViewDetails;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class CourseCard extends StatelessWidget {
         screenWidth < 600 ? 16.0 : (screenWidth < 1024 ? 18.0 : 19.0);
 
     return Container(
-      width: 360,
+      width: width,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: theme.secondaryBackground,

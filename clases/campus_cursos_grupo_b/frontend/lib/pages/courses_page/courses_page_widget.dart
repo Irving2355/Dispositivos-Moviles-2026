@@ -41,7 +41,7 @@ class _CoursesPageWidgetState extends State<CoursesPageWidget> {
     _reloadCourses();
   }
 
-  void _reloadCourses(){
+  void _reloadCourses() {
     _coursesFuture = _repository.getCourses();
   }
 
@@ -52,16 +52,42 @@ class _CoursesPageWidgetState extends State<CoursesPageWidget> {
     super.dispose();
   }
 
-  void _openCourseForm() {
-    context.pushNamed(
+  Future<void> _openCourseForm() async {
+    await context.pushNamed(
       CourseFormPageWidget.routeName,
       queryParameters: {
         'courseId': serializeParam(0, ParamType.int),
       }.withoutNulls,
     );
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(
+      _reloadCourses,
+    );
   }
 
-  Future<void> _refreshCourse()async{
+  Future<void> _openCourse(Course course) async {
+    if (course.id == null) {
+      return;
+    }
+
+    await context.pushNamed(CourseDetailPageWidget.routeName,
+        queryParameters: {'courseId': serializeParam(course.id, ParamType.int)}
+            .withoutNulls);
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(
+      _reloadCourses,
+    );
+  }
+
+  Future<void> _refreshCourse() async {
     setState(
       _reloadCourses,
     );
@@ -102,29 +128,76 @@ class _CoursesPageWidgetState extends State<CoursesPageWidget> {
                   ),
                 ),
                 ResponsivePageSection(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return Wrap(
-                        spacing: 16,
-                        runSpacing: 16,
-                        alignment: WrapAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: constraints.maxWidth < 360
-                                ? constraints.maxWidth
-                                : 360,
-                            child: CourseCard(
-                              title: 'titulo',
-                              teacher: 'profesor',
-                              semester: 'semestre',
-                              description: 'descripcion',
-                              onViewDetails: () => context.pushNamed(
-                                CourseDetailPageWidget.routeName,
-                                queryParameters: {
-                                  'courseId': serializeParam(0, ParamType.int),
-                                }.withoutNulls,
+                  child: FutureBuilder<List<Course>>(
+                    future: _coursesFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox(
+                          height: 200,
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
+
+                      if (snapshot.hasError) {
+                        return const SizedBox(
+                          height: 200,
+                          child: Center(
+                            child: Text('Error al cargar los cursos'),
+                          ),
+                        );
+                      }
+
+                      final courses = snapshot.data ?? <Course>[];
+
+                      if (courses.isEmpty) {
+                        return Column(
+                          children: [
+                            const SizedBox(
+                              height: 200,
+                              child: Center(
+                                child: Text('No hay cursos disponibles'),
                               ),
                             ),
+                            const SizedBox(height: 16),
+                            CampusPrimaryButton(
+                              text: 'Crear primer curso',
+                              width: 200,
+                              height: 54,
+                              onPressed: () async => _openCourseForm(),
+                            ),
+                          ],
+                        );
+                      }
+
+                      return Column(
+                        children: [
+                          CampusPrimaryButton(
+                            text: 'Actualizar',
+                            width: 200,
+                            height: 54,
+                            onPressed: () async => _refreshCourse(),
+                          ),
+                          const SizedBox(height: 16),
+                          LayoutBuilder(
+                            builder: (context, constraints) {
+                              final width = constraints.maxWidth < 320
+                                  ? constraints.maxWidth
+                                  : 320.0;
+                              return Wrap(
+                                spacing: 16,
+                                runSpacing: 16,
+                                alignment: WrapAlignment.center,
+                                children: courses.map((course) {
+                                  return CourseListCard(
+                                    course: course,
+                                    width: width,
+                                    onTap: () async => _openCourse(course),
+                                  );
+                                }).toList(),
+                              );
+                            },
                           ),
                         ],
                       );
