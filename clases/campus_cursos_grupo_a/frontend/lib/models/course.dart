@@ -3,7 +3,7 @@ class Course {
   final String name;
   final String description;
   final String teacher;
-  final int semester;
+  final String semester;
 
   const Course({
     this.id,
@@ -19,7 +19,7 @@ class Course {
       name: json['name'] as String,
       description: json['description'] as String,
       teacher: json['teacher'] as String,
-      semester: json['semester'] as int,
+      semester: json['semester'] as String,
     );
   }
 
@@ -38,7 +38,7 @@ class Course {
     String? name,
     String? description,
     String? teacher,
-    int? semester,
+    String? semester,
   }) {
     return Course(
       id: id ?? this.id,

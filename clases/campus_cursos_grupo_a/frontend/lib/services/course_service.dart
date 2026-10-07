@@ -53,10 +53,11 @@ class CourseService {
   }
 
   //id
-  Future<Course> getCourse(int id)async{
-    final response = await _client.get(_uri(
+  Future<Course> getCourse(int id,)async{
+    final response = await _client.get(
+      _uri(
       '/courses/%id',
-    ));
+    ),);
 
     if(response.statusCode != 200){
       throw ApiExeption('No se obtuvo respuesta',

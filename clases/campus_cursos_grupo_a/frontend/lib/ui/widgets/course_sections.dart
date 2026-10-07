@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'campus_page_layout.dart';
 
+import '../../models/course.dart';
+
 class CoursesHeaderSection extends StatelessWidget {
   const CoursesHeaderSection({
     super.key,
@@ -79,9 +81,14 @@ class CoursesHeaderSection extends StatelessWidget {
 }
 
 class CourseGridSection extends StatelessWidget {
-  const CourseGridSection({super.key, required this.onViewDetails});
+  const CourseGridSection({
+    super.key, 
+    required this.courses,
+    required this.onViewDetails
+  });
+  final List<Course> courses;
 
-  final VoidCallback onViewDetails;
+  final ValueChanged<Course> onViewDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -92,16 +99,28 @@ class CourseGridSection extends StatelessWidget {
         spacing: 16,
         runSpacing: 16,
         alignment: WrapAlignment.center,
-        children: [
-          CourseCard(onViewDetails: onViewDetails),
-        ],
+        children: courses.map(
+          (course){
+            return CourseCard(
+              course: course,
+              onViewDetails: (){
+                onViewDetails(course,);
+              },
+            );
+          }
+        ).toList(),
       ),
     );
   }
 }
 
 class CourseCard extends StatelessWidget {
-  const CourseCard({super.key, required this.onViewDetails});
+  const CourseCard({
+    super.key, 
+    required this.course,
+    required this.onViewDetails
+  });
+  final Course course;
 
   final VoidCallback onViewDetails;
 
@@ -126,7 +145,7 @@ class CourseCard extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Titulo',
+              'Titulo: ${course.name}',
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                     font: GoogleFonts.inter(fontWeight: FontWeight.bold),
@@ -136,12 +155,12 @@ class CourseCard extends StatelessWidget {
                   ),
             ),
             const SizedBox(height: 10),
-            Text('Profesor', style: FlutterFlowTheme.of(context).bodyMedium),
+            Text(course.teacher, style: FlutterFlowTheme.of(context).bodyMedium),
             const SizedBox(height: 10),
-            Text('Semestre', style: FlutterFlowTheme.of(context).bodyMedium),
+            Text(course.semester, style: FlutterFlowTheme.of(context).bodyMedium),
             const SizedBox(height: 10),
             Text(
-              'Descripcion',
+              course.description,
               textAlign: TextAlign.justify,
               style:
                   FlutterFlowTheme.of(context).bodyMedium.copyWith(height: 1.4),
