@@ -1,3 +1,4 @@
+import 'package:campus_cursos_grupo_b/models/course.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,12 +8,14 @@ import 'campus_primary_button.dart';
 class CourseDetailCard extends StatelessWidget {
   const CourseDetailCard({
     super.key,
+    required this.course,
     required this.onEdit,
     required this.onDelete,
   });
 
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final Course course;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class CourseDetailCard extends StatelessWidget {
           Icon(Icons.arrow_back, color: theme.primaryText, size: 55),
           const SizedBox(height: 14),
           Text(
-            'Hello World',
+            course.title,
             textAlign: TextAlign.center,
             style: theme.bodyMedium.override(
               font: GoogleFonts.inter(fontWeight: FontWeight.bold),
@@ -47,7 +50,7 @@ class CourseDetailCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           Text(
-            'Hello World',
+            course.description,
             textAlign: TextAlign.justify,
             style: theme.bodyMedium.override(
               font: GoogleFonts.inter(
@@ -63,13 +66,13 @@ class CourseDetailCard extends StatelessWidget {
           Divider(thickness: 2, color: theme.alternate),
           const SizedBox(height: 14),
           Text(
-            'Hello World',
+            'Profesor: ${course.teacher}',
             style: theme.bodyMedium.copyWith(
               fontSize: screenWidth < 600 ? 16 : 18,
             ),
           ),
           const SizedBox(height: 14),
-          Text('Hello World', style: theme.bodyMedium),
+          Text(course.semester, style: theme.bodyMedium),
           const SizedBox(height: 14),
           Wrap(
             spacing: 12,

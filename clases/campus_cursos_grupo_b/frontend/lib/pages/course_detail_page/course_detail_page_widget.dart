@@ -8,6 +8,9 @@ import '/ui/widgets/course_detail_card.dart';
 import '/ui/widgets/responsive_page_section.dart';
 import 'course_detail_page_model.dart';
 
+import '/models/course.dart';
+import '/repositories/course_repository.dart';
+
 export 'course_detail_page_model.dart';
 
 class CourseDetailPageWidget extends StatefulWidget {
@@ -29,11 +32,26 @@ class _CourseDetailPageWidgetState extends State<CourseDetailPageWidget> {
   late CourseDetailPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final CourseRepository _repository = CourseRepository();
+  late Future<Course> _courseFuture;
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, CourseDetailPageModel.new);
+    _courseFuture = _loadCourses();
+  }
+
+  Future<Course> _loadCourses(){
+    return _repository.getCourse(
+      widget.courseId!.toInt()
+    );
+  }
+
+  void _reloadCourses() {
+    setState(() {
+      _courseFuture = _loadCourses();
+    });
   }
 
   @override
@@ -81,6 +99,7 @@ class _CourseDetailPageWidgetState extends State<CourseDetailPageWidget> {
             child: ResponsivePageSection(
               maxWidth: 900,
               child: CourseDetailCard(
+                course: _courseFuture as Course,
                 onEdit: _editCourse,
                 onDelete: _showDeletingMessage,
               ),

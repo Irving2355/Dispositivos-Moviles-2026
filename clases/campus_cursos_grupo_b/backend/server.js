@@ -79,7 +79,7 @@ function validateCourse(body) {
   }
 
 
-  if (!/^\d{4}-{12}$/.test(semester)) {
+  if (!/^\d{4}-[12]$/.test(semester)) {
 
     errors.push(
       'El semestre debe ser AAAA-1 o AAAA-2'
