@@ -2,10 +2,14 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
-import '/ui/widgets/course_card.dart';
+//import '/ui/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'courses_page_model.dart';
+
+import '/models/course.dart';
+import '/repositories/course_repositorie.dart';
+import '/ui/widgets/course_list_card.dart';
 
 export 'courses_page_model.dart';
 
@@ -23,16 +27,67 @@ class _CoursesPageWidgetState extends State<CoursesPageWidget> {
   late CoursesPageModel _model;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final CourseRepositorie  _repositorie = CourseRepositorie();
+  late Future<List<Course>> _coursesFuture;
+
   @override
   void initState() {
     super.initState();
     _model = createModel(context, CoursesPageModel.new);
+
+    _reloadCourses();
+  }
+
+  void _reloadCourses(){
+    _coursesFuture = _repositorie.getCourses();
+  }
+
+  Future<void> _refreshCourses() async{
+    setState(() {
+      _reloadCourses();
+    });
+    await _coursesFuture;
   }
 
   @override
   void dispose() {
+    _repositorie.dispose();
     _model.dispose();
     super.dispose();
+  }
+
+  Future<void> _openNewCourse() async{
+    await context.pushNamed(
+      CourseFormPageWidget.routeName,
+      queryParameters: {
+        'courseId': serializeParam(0, ParamType.int,),
+      }.withoutNulls,
+    );
+
+    if(!mounted){
+      return;
+    }
+
+    setState(() {
+      _reloadCourses();
+    });
+  }
+
+  Future<void> _openCourseDetails(Course course) async{
+    await context.pushNamed(
+      CourseDetailPageWidget.routeName,
+      queryParameters: {
+        'courseId': serializeParam(course.id, ParamType.int,),
+      }.withoutNulls,
+    );
+
+    if(!mounted){
+      return;
+    }
+
+    setState(() {
+      _reloadCourses();
+    });
   }
 
   @override
@@ -117,28 +172,26 @@ class _CoursesPageWidgetState extends State<CoursesPageWidget> {
                       ),
                     ),
                     const SizedBox(height: 32.0),
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        return Wrap(
-                          spacing: 16.0,
-                          runSpacing: 16.0,
-                          alignment: WrapAlignment.center,
-                          children: [
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxWidth: constraints.maxWidth,
-                              ),
-                              child: CourseCard(
-                                title: 'Hello World',
-                                teacher: 'Hello World',
-                                semester: 'Hello World',
-                                description: 'Hello World',
-                                onViewDetails: _openCourseDetails,
-                              ),
+                    
+                    FutureBuilder(
+                      future: _coursesFuture, 
+                      builder: (context, snapshot){
+                        if(snapshot.connectionState 
+                        == ConnectionState.waiting){
+                          return const SizedBox(
+                            height: 180,
+                            child: Center(
+                              child: CircularProgressIndicator(),
                             ),
-                          ],
-                        );
-                      },
+                          );
+                        }
+
+                        if(snapshot.hasError){
+                          return Text(
+                            snapshot.hasError.toString()
+                          );
+                        }
+                      }
                     ),
                   ],
                 ),
@@ -147,24 +200,6 @@ class _CoursesPageWidgetState extends State<CoursesPageWidget> {
           ),
         ),
       ),
-    );
-  }
-
-  void _openNewCourse() {
-    context.pushNamed(
-      CourseFormPageWidget.routeName,
-      queryParameters: {
-        'courseId': serializeParam(0, ParamType.int),
-      }.withoutNulls,
-    );
-  }
-
-  void _openCourseDetails() {
-    context.pushNamed(
-      CourseDetailPageWidget.routeName,
-      queryParameters: {
-        'courseId': serializeParam(0, ParamType.int),
-      }.withoutNulls,
     );
   }
 }
