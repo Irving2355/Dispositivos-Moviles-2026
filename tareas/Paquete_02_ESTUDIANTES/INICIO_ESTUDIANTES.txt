@@ -1,0 +1,23 @@
+PRACTICA 02 - TECHLOAN | NEXASOFT SOLUTIONS
+
+Contenido:
+- Proyecto_TechLoan/: proyecto Flutter heredado.
+- Guia_Practica_02_TechLoan.pdf: instrucciones, seis tickets y procedimiento GitHub.
+- Guia_Practica_02_TechLoan.tex: fuente editable en LaTeX.
+
+DURACION: 5 sesiones | EQUIPOS: 3 o 4 integrantes.
+NO SE ENTREGA BITACORA DIARIA.
+LA EVIDENCIA PRINCIPAL ES GITHUB: Issues, ramas, commits, PR y revisiones.
+
+Organizacion: https://github.com/Dispositivos-Moviles-UAA-2026
+El repositorio debe crearse bajo esta organizacion, con visibilidad Private.
+Solo el profesor asigna miembros a los equipos de la organizacion.
+
+Arranque local dentro de Proyecto_TechLoan:
+flutter create . --project-name techloan
+flutter pub get
+flutter run -d chrome --web-port 7357
+
+El proyecto contiene errores funcionales que deben investigarse.
+La app usa datos ficticios y almacenamiento local, sin servidor externo.
+Lea primero la guia PDF antes de distribuir tickets.
