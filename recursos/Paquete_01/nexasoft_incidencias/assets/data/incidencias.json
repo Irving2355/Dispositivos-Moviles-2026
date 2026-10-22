@@ -1,0 +1,12 @@
+[
+  {"id":"INC-101","titulo":"Impresora del almacén no responde","descripcion":"La impresora aparece conectada, pero los documentos permanecen en cola.","cliente":"Almacenes del Centro","categoria":"Hardware","estado":"Pendiente","fecha":"2026-09-28"},
+  {"id":"INC-102","titulo":"WiFi intermitente en recepción","descripcion":"La red inalámbrica se desconecta de forma aleatoria durante la mañana.","cliente":"Clínica del Prado","categoria":"Redes","estado":"En proceso","fecha":"2026-09-29"},
+  {"id":"INC-103","titulo":"Pantalla azul al iniciar equipo","descripcion":"El equipo de contabilidad muestra pantalla azul después de iniciar sesión.","cliente":"Servicios del Norte","categoria":"Hardware","estado":"Pendiente","fecha":"2026-09-30"},
+  {"id":"INC-104","titulo":"No llegan correos de confirmación","descripcion":"Los mensajes de notificación tardan varios minutos en entregarse.","cliente":"Almacenes del Centro","categoria":"Software","estado":"Resuelta","fecha":"2026-10-01"},
+  {"id":"INC-105","titulo":"Error de usuario en portal","descripcion":"Al cambiar la contraseña, el portal vuelve a solicitar autenticación.","cliente":"Grupo Loma","categoria":"Software","estado":"Pendiente","fecha":"2026-10-02"},
+  {"id":"INC-106","titulo":"Configuración de VPN","descripcion":"El personal remoto no puede establecer túnel de conexión seguro.","cliente":"Servicios del Norte","categoria":"Redes","estado":"En proceso","fecha":"2026-10-03"},
+  {"id":"INC-107","titulo":"Cambio de teclado","descripcion":"El teclado de recepción registra caracteres duplicados.","cliente":"Clínica del Prado","categoria":"Hardware","estado":"Resuelta","fecha":"2026-10-05"},
+  {"id":"INC-108","titulo":"Lentitud al registrar pedidos","descripcion":"El módulo de pedidos tarda demasiado al guardar una venta.","cliente":"Grupo Loma","categoria":"Software","estado":"Pendiente","fecha":"2026-10-06"},
+  {"id":"INC-109","titulo":"Router se reinicia solo","descripcion":"Se presentan cortes de red cuando aumenta el tráfico en el turno vespertino.","cliente":"Almacenes del Centro","categoria":"Redes","estado":"Resuelta","fecha":"2026-10-08"},
+  {"id":"INC-110","titulo":"Pantalla de inventario desordenada","descripcion":"Los campos del inventario se enciman en algunas resoluciones pequeñas.","cliente":"Grupo Loma","categoria":"Software","estado":"Pendiente","fecha":"2026-10-09"}
+]
