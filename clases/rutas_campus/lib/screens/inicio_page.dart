@@ -86,30 +86,59 @@ class _InicioPageState extends State<InicioPage> {
           ),
         ]
       ),
-      body: FutureBuilder<List<Lugar>>(
-        future: _lugaresFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No hay lugares disponibles.'));
-          } else {
-            final lugares = snapshot.data!;
-            return ListView.builder(
-              itemCount: lugares.length,
-              itemBuilder: (context, index) {
-                final lugar = lugares[index];
-                return ListTile(
-                  leading: Image.asset(lugar.imagen),
-                  title: Text(lugar.nombre),
-                  subtitle: Text(lugar.descripcion),
-                );
-              },
-            );
-          }
-        },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: TextField(
+              controller: _aliasController,
+              decoration: const InputDecoration(
+                labelText: 'Tu alias (opcional)',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          Text(_aliasController.text.isEmpty
+              ? 'Bienvenido al campus'
+              : 'Hola, ${_aliasController.text}'),
+          Text("Seleccion inicial: ${_seleccionadoId ?? 'ninguna'}"),
+          Expanded(
+            child: _cargando
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: _lugares.length,
+                    itemBuilder: (context, index) {
+                      final lugar = _lugares[index];
+                      return ListTile(
+                        leading: Image.asset(lugar.imagen, width: 56),
+                        title: Text(lugar.nombre),
+                        subtitle: Text(lugar.descripcion),
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PantallaPausa extends StatelessWidget {
+const PantallaPausa({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pantalla de pausa'),
+      ),
+      body: Center(
+        child: FilledButton(
+          onPressed: ()=> Navigator.of(context).pushReplacement(
+            MaterialPageRoute<void>(builder: (_)=>
+            const InicioPage()),
+          ), 
+          child: const Text('Volver al home')),
       ),
     );
   }
