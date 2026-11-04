@@ -102,8 +102,10 @@ class _InicioPageState extends State<InicioPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Text('Segundos transcurridos: $segundos'),
+                  Text('Segundos transcurridos: $_segundos'),
                   const SizedBox(height: 16),
+                  Text(_aliasController.text.isEmpty ? 'Bienvenido': 
+                  'Hola: ${_aliasController.text}'),
                   DropdownButton<String>(
                     value: _seleccionadoId,
                     items: _lugares.map((lugar) {
@@ -121,6 +123,28 @@ class _InicioPageState extends State<InicioPage> {
                 ],
               ),
             ),
+    );
+  }
+}
+
+class PantallaPausa extends StatelessWidget {
+const PantallaPausa({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pantalla pausa'),
+      ),
+      body: Center(
+        child: FilledButton(
+          onPressed: ()=> 
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute<void>(builder: (_)=>
+            const InicioPage(),)
+          ), 
+          child: Text('Volver al home')),
+      ),
     );
   }
 }
