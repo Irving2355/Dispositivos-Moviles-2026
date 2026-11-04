@@ -75,9 +75,10 @@ class _InicioPageState extends State<InicioPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rutas del campus'),
-        actions:[
-          Center(child: Text('${_segundos}s'),),
+        actions: [
+          Center(child: Text('$_segundos s'),),
           IconButton(
+            tooltip: 'Salir para observar dispose',
             icon: const Icon(Icons.exit_to_app),
             onPressed: () {
               Navigator.of(context).pushReplacement(
@@ -87,42 +88,39 @@ class _InicioPageState extends State<InicioPage> {
           ),
         ]
       ),
-      body: _cargando
-          ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextField(
-                    controller: _aliasController,
-                    decoration: const InputDecoration(
-                      labelText: 'Alias',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text('Segundos transcurridos: $_segundos'),
-                  const SizedBox(height: 16),
-                  Text(_aliasController.text.isEmpty ? 'Bienvenido': 
-                  'Hola: ${_aliasController.text}'),
-                  DropdownButton<String>(
-                    value: _seleccionadoId,
-                    items: _lugares.map((lugar) {
-                      return DropdownMenuItem<String>(
-                        value: lugar.id,
-                        child: Text(lugar.nombre),
-                      );
-                    }).toList(),
-                    onChanged: (String? nuevoId) {
-                      setState(() {
-                        _seleccionadoId = nuevoId;
-                      });
-                    },
-                  ),
-                ],
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: TextField(
+              controller: _aliasController,
+              decoration: const InputDecoration(
+                labelText: 'Tu alias (opcional)',
+                border: OutlineInputBorder(),
               ),
             ),
+          ),
+          Text(_aliasController.text.isEmpty
+              ? 'Bienvenido al campus'
+              : 'Hola, ${_aliasController.text}'),
+          Text("Seleccion inicial: ${_seleccionadoId ?? 'ninguna'}"),
+          Expanded(
+            child: _cargando
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: _lugares.length,
+                    itemBuilder: (context, index) {
+                      final lugar = _lugares[index];
+                      return ListTile(
+                        leading: Image.asset(lugar.imagen, width: 56),
+                        title: Text(lugar.nombre),
+                        subtitle: Text(lugar.descripcion),
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
     );
   }
 }
