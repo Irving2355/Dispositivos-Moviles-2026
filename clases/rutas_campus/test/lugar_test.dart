@@ -13,7 +13,7 @@ void main(){
     final copia = biblioteca.copyWith(
       favorito: true,
     );
-    expect(copia.favorito, isFalse);
+    expect(copia.favorito, isTrue);
     expect(copia.nombre, equals('Biblioteca'));
     expect(copia.descripcion, equals('Estudio'));
     expect(copia.id, biblioteca.id);
