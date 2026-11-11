@@ -1,0 +1,4 @@
+<!-- Archivo: android/app/src/main/AndroidManifest.xml -->
+<!-- Son hijos DIRECTOS de <manifest>, ANTES de <application>. -->
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

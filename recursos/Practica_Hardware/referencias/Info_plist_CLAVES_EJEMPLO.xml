@@ -1,0 +1,10 @@
+<!-- Colocar DENTRO de <dict> en ios/Runner/Info.plist -->
+<!-- NO REEMPLAZAR TODO EL Info.plist ORIGINAL -->
+<key>NSCameraUsageDescription</key>
+<string>Usamos la camara para una fotografia de la practica.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Permitimos seleccionar fotografias para una practica escolar.</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>Necesitamos la ubicacion mientras la aplicacion esta abierta.</string>
+<key>NSMotionUsageDescription</key>
+<string>Usamos el acelerometro para mostrar movimiento del dispositivo.</string>
