@@ -1,30 +1,48 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:rutas_campus/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Pantalla de carga de datos y actualizacion', (tester)async {
+    await tester.pumpWidget(const RutasCampusApp());
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.text('Bienvendio al campsu'), findsOneWidget);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    await tester.enterText(find.byType(TextField), 'Fernando');
     await tester.pump();
+    expect(find.text('Hola, Fernando'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.pump(const Duration(microseconds: 1900));
+    await tester.pump();
+    expect(find.byType(ListTile), findsNWidgets(3));
+    expect(find.text('Seleccion inicial: biblioteca'), findsOneWidget);
+
+    //quitar el widget cancela el timer del dispose
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('El contador avanza un segundo y se libera al salir',
+      (tester) async {
+    await tester.pumpWidget(const RutasCampusApp());
+    expect(find.text('0 s'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pump();
+    expect(find.text('1 s'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  testWidgets('Salir antes de terminar cargar() no causa errores',
+      (tester) async {
+    await tester.pumpWidget(const RutasCampusApp());
+    await tester.tap(find.byIcon(Icons.exit_to_app));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 450));
+    expect(find.text('Pantalla de pausa'), findsOneWidget);
+
+    // La carga de InicioPage sigue pendiente; mounted evita setState.
+    await tester.pump(const Duration(milliseconds: 1900));
+    await tester.pump();
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
 }
