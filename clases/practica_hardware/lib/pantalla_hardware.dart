@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
 
 // BASE: los tres botones estan visibles,
 // pero NO se implemento el acceso a camara, GPS ni sensores.
@@ -14,15 +17,80 @@ class _PantallaHardwareState extends State<PantallaHardware> {
   String _mensajeUbicacion = 'Ubicacion no consultada.';
   String _mensajeSensor = 'Sensor detenido.';
   bool _sensorActivo = false;
+  final ImagePicker _selectorImagen = ImagePicker();
+  XFile? _foto;
 
   // FOTO. Reemplazar el metodo.
   Future<void> _tomarFoto() async {
-    setState(() => _mensajeFoto = 'Pendiente: conectar la camara.');
+    try{
+      final XFile? image = await _selectorImagen.pickImage(source: ImageSource.camera,
+      imageQuality: 70,
+      maxWidth: 1280,
+      );
+
+      if(!mounted) return;
+
+      if(image == null){
+        setState(()=> _mensajeFoto = 'Tomale foto we');
+        return;
+      }
+
+      setState(() {
+        _foto = image;
+        _mensajeFoto = 'Fiu fiu';
+      });
+    }catch(error){
+      if(!mounted) return;
+      setState(() {
+        _mensajeFoto = 'No se puede $error';
+      });
+    }
   }
 
   // UBICACION. Reemplazar el metodo.
   Future<void> _leerUbicacion() async {
-    setState(() => _mensajeUbicacion = 'Pendiente: consultar el GPS.');
+    try {
+      final activo = await Geolocator.isLocationServiceEnabled();
+      if(!activo){
+        if(!mounted) return;
+        setState(() => _mensajeUbicacion = 'Activa la ubi we');
+        return;
+      }
+
+      var permiso = await Geolocator.checkPermission();
+      if(permiso == LocationPermission.denied){
+        permiso = await Geolocator.requestPermission();
+      }
+
+      if(permiso == LocationPermission.denied || 
+      permiso == LocationPermission.deniedForever){
+        if(!mounted) return;
+        setState(() {
+          _mensajeUbicacion= 'No tengo permiso';
+        });
+        return;
+      }
+
+      final posicion = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 15),
+        )
+      );
+
+      if(!mounted)return;
+      setState(() {
+        _mensajeUbicacion = 
+        'Lat: ${posicion.latitude.toStringAsFixed(6)} '
+        'Lon: ${posicion.longitude.toStringAsFixed(6)} '
+        'Presicion: ${posicion.accuracy.toStringAsFixed(0)} m';
+      });
+    } catch (e) {
+      if(!mounted) return;
+      setState(() {
+        _mensajeUbicacion = '$e';
+      });
+    }
   }
 
   // SENSOR. Reemplazar el metodo.
@@ -48,7 +116,14 @@ class _PantallaHardwareState extends State<PantallaHardware> {
                   Text(_mensajeFoto),
                   const SizedBox(height: 8),
                   // VISTA PREVIA. Sustituir este Text.
-                  const Text('Aqui aparecera la fotografia.'),
+                  _foto == null ?
+                  const Text('Aqui aparece la foto')
+                  : Image.file(
+                    File(_foto!.path),
+                    width: double.infinity,
+                    height: 160,
+                    fit: BoxFit.cover,
+                  ),
                   const SizedBox(height: 8),
                   FilledButton(
                     onPressed: _tomarFoto,
