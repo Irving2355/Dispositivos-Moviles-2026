@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'dart:async';
+import 'package:sensors_plus/sensors_plus.dart';
+
 // BASE: los tres botones estan visibles,
 // pero NO se implemento el acceso a camara, GPS ni sensores.
 class PantallaHardware extends StatefulWidget {
@@ -19,6 +22,8 @@ class _PantallaHardwareState extends State<PantallaHardware> {
   bool _sensorActivo = false;
   final ImagePicker _selectorImagen = ImagePicker();
   XFile? _foto;
+
+  StreamSubscription<AccelerometerEvent>? _sensorSub;
 
   // FOTO. Reemplazar el metodo.
   Future<void> _tomarFoto() async {
@@ -95,7 +100,48 @@ class _PantallaHardwareState extends State<PantallaHardware> {
 
   // SENSOR. Reemplazar el metodo.
   void _alternarSensor() {
-    setState(() => _mensajeSensor = 'Pendiente: escuchar el sensor.');
+    if(_sensorSub != null){
+      _sensorSub?.cancel();
+      _sensorSub = null;
+      setState(() {
+        _sensorActivo = false;
+        _mensajeSensor = 'Sensor desactivado';
+      });
+      return;
+    }
+
+    _sensorSub = accelerometerEventStream(
+      samplingPeriod: SensorInterval.normalInterval
+    ).listen(
+      (evento){
+        if(!mounted) return;
+        setState(() {
+          _mensajeSensor = 
+          'X: ${evento.x.toStringAsFixed(2)} '
+          'Y: ${evento.y.toStringAsFixed(2)} '
+          'Z: ${evento.z.toStringAsFixed(2)} m/s2';
+        });
+      },
+      onError: (Object error){
+        if(!mounted) return;
+        setState(() {
+          _sensorActivo = false;
+          _mensajeSensor = '$error';
+        });
+        _sensorSub = null;
+      },
+      cancelOnError: true,
+    );
+
+    setState(() {
+      _sensorActivo = true;
+    });
+  } 
+
+  @override
+  void dispose() {
+    _sensorSub?.cancel();
+    super.dispose();
   }
 
   @override
