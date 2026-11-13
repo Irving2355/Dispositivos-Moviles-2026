@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
+import 'dart:async';
+import 'package:sensors_plus/sensors_plus.dart';
 
 // BASE: los tres botones estan visibles,
 // pero NO se implemento el acceso a camara, GPS ni sensores.
@@ -15,19 +20,122 @@ class _PantallaHardwareState extends State<PantallaHardware> {
   String _mensajeSensor = 'Sensor detenido.';
   bool _sensorActivo = false;
 
+  final ImagePicker _selectorImagen = ImagePicker();
+  XFile? _foto;
+
+  StreamSubscription<AccelerometerEvent>? _sensorSub;
+
   // FOTO. Reemplazar el metodo.
   Future<void> _tomarFoto() async {
-    setState(() => _mensajeFoto = 'Pendiente: conectar la camara.');
+    try {
+      final XFile? imagen = await _selectorImagen.pickImage(source: ImageSource.camera,
+      imageQuality: 70,
+      maxWidth: 1280);
+
+      if(!mounted) return;
+
+      if(imagen == null){
+        setState(()=> _mensajeFoto = 'Toma una foto');
+        return;
+      }
+
+      setState(() {
+        _foto = imagen;
+        _mensajeFoto = 'peinate we das pena';
+      });
+
+    } catch (e) {
+      if(!mounted) return;
+      setState(() {
+        _mensajeFoto = 'Error $e';
+      });
+    }
   }
 
   // UBICACION. Reemplazar el metodo.
   Future<void> _leerUbicacion() async {
-    setState(() => _mensajeUbicacion = 'Pendiente: consultar el GPS.');
+    final activo = await Geolocator.isLocationServiceEnabled();
+    if(!activo){
+      if(!mounted) return;
+      setState(() {
+        _mensajeUbicacion = 'Activa la ubi';
+      });
+      return;
+    }
+
+    var permiso = await Geolocator.checkPermission();
+    if(permiso == LocationPermission.denied){
+      permiso = await Geolocator.requestPermission();
+    }
+
+    if(permiso == LocationPermission.denied || 
+    permiso == LocationPermission.deniedForever){
+      if(!mounted) return;
+      setState(() {
+        _mensajeUbicacion = 'Con quien andas es la otra veda?? ojo de loca no se equivoca';
+      });
+    }
+
+    final posicion = await Geolocator.getCurrentPosition(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        timeLimit: Duration(seconds: 15)
+      )
+    );
+
+    if(!mounted) return;
+    setState(() {
+      _mensajeUbicacion = 
+        'Lat: ${posicion.latitude.toStringAsFixed(6)}'
+        'Lon: ${posicion.longitude.toStringAsFixed(6)}'
+        'Presicion: ${posicion.accuracy.toStringAsFixed(0)} m';
+    });
   }
 
   // SENSOR. Reemplazar el metodo.
   void _alternarSensor() {
-    setState(() => _mensajeSensor = 'Pendiente: escuchar el sensor.');
+    if(_sensorSub != null){
+      _sensorSub?.cancel();
+      _sensorSub = null;
+      setState(() {
+        _sensorActivo = false;
+        _mensajeSensor = 'Sensor detenido';
+      });
+      return;
+    }
+
+    _sensorSub = accelerometerEventStream(
+      samplingPeriod: SensorInterval.normalInterval,
+    ).listen(
+      (evento){
+        if(!mounted) return;
+        setState(() {
+          _mensajeSensor = 
+          'X: ${evento.x.toStringAsFixed(2)} '
+          'Y: ${evento.y.toStringAsFixed(2)} '
+          'Z: ${evento.z.toStringAsFixed(2)} m/s2';
+        });
+      },
+      onError: (Object error) {
+        if(!mounted) return;
+        setState(() {
+          _sensorActivo = false;
+          _mensajeSensor = 'Sensor no disponible $error';
+        });
+        _sensorSub = null;
+      },
+      cancelOnError: true,
+    );
+
+    setState(() {
+      _sensorActivo = true;
+    });
+  }
+
+  @override 
+  void dispose(){
+    _sensorSub?.cancel();
+    super.dispose();
   }
 
   @override
@@ -48,7 +156,14 @@ class _PantallaHardwareState extends State<PantallaHardware> {
                   Text(_mensajeFoto),
                   const SizedBox(height: 8),
                   // VISTA PREVIA. Sustituir este Text.
-                  const Text('Aqui aparecera la fotografia.'),
+                  _foto == null ?
+                  const Text('Aqui aparecera la fotografia.'): 
+                  Image.file(
+                    File(_foto!.path),
+                    width: double.infinity,
+                    height: 160,
+                    fit: BoxFit.cover,
+                  ),
                   const SizedBox(height: 8),
                   FilledButton(
                     onPressed: _tomarFoto,
